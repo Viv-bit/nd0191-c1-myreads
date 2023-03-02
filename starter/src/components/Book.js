@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Book({ book }) {
+export default function Book({ book, updateBookShelf }) {
   return (
     <div>
       <div className="book">
@@ -10,11 +10,14 @@ export default function Book({ book }) {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: book.url,
+              backgroundImage: `url(${book?.imageLinks?.thumbnail})`,
             }}
           ></div>
           <div className="book-shelf-changer">
-            <select>
+            <select
+              defaultValue={book.shelf}
+              onChange={(e) => updateBookShelf(book, e.target.value)}
+            >
               <option value="none" disabled>
                 Move to...
               </option>
