@@ -7,7 +7,7 @@ export default function Shelf({ bookList, title, onBookShelfChange }) {
       <h2 className="bookshelf-title">{title}</h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
-          {bookList.map((book) => {
+          {bookList?.map((book) => {
             return (
               <li key={book.id}>
                 <Book book={book} updateBookShelf={onBookShelfChange} />

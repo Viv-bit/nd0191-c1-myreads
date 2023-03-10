@@ -15,10 +15,10 @@ export default function Book({ book, updateBookShelf }) {
           ></div>
           <div className="book-shelf-changer">
             <select
-              defaultValue={book.shelf}
+              defaultValue={book.shelf ? book.shelf : "none"}
               onChange={(e) => updateBookShelf(book, e.target.value)}
             >
-              <option value="none" disabled>
+              <option value="" disabled>
                 Move to...
               </option>
               <option value="currentlyReading">Currently Reading</option>

@@ -1,43 +1,49 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HomePage from "./pages/HomePage";
+import * as BooksAPI from "./BooksAPI";
+import Search from "./components/Search";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
-  const [showSearchPage, setShowSearchpage] = useState(false);
+  const [books, setBooks] = useState([]);
+  useEffect(() => {
+    BooksAPI.getAll().then((res) => {
+      console.log(res);
+      setBooks(res);
+    });
+  }, []);
 
+  const onBookShelfChange = (book, whereTo) => {
+    let id = book?.id;
+
+    const updatedBooks = books.map((book) => {
+      if (id === book.id) {
+        book.shelf = whereTo;
+        return book;
+      }
+      return book;
+    });
+    setBooks(updatedBooks);
+    BooksAPI.update(book, whereTo);
+  };
   return (
     <div className="app">
-      {showSearchPage ? (
-        <div className="search-books">
-          <div className="search-books-bar">
-            <a
-              className="close-search"
-              onClick={() => setShowSearchpage(!showSearchPage)}
-            >
-              Close
-            </a>
-            <div className="search-books-input-wrapper">
-              <input
-                type="text"
-                placeholder="Search by title, author, or ISBN"
-              />
-            </div>
-          </div>
-          <div className="search-books-results">
-            <ol className="books-grid"></ol>
-          </div>
-        </div>
-      ) : (
-        <div className="list-books">
-          {/* <div className="list-books-title">
-            <h1>MyReads</h1>
-          </div> */}
-          <HomePage />
-          <div className="open-search">
-            <a onClick={() => setShowSearchpage(!showSearchPage)}>Add a book</a>
-          </div>
-        </div>
-      )}
+      <Routes>
+        <Route
+          element={
+            <Search books={books} onBookShelfChange={onBookShelfChange} />
+          }
+          path="/search"
+        />
+
+        <Route
+          element={
+            <HomePage books={books} onBookShelfChange={onBookShelfChange} />
+          }
+          path="/"
+        />
+      </Routes>
     </div>
   );
 }
