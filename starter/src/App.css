@@ -15,7 +15,7 @@ body,
 
 .list-books-title {
   padding: 10px 0;
-  background: #2e7c31;
+  background: #925dac;
   text-align: center;
 }
 .list-books-title h1 {
@@ -56,13 +56,14 @@ body,
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #2e7d32;
+  background: #925dac;
   background-image: url("./icons/add.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 28px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   font-size: 0;
+  cursor: pointer;
 }
 
 /* search page */
@@ -100,6 +101,7 @@ body,
   background-repeat: no-repeat;
   background-size: 28px;
   font-size: 0;
+  cursor: pointer;
 }
 
 .search-books-results {
@@ -150,7 +152,7 @@ body,
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #60ac5d;
+  background: #925dac;
   background-image: url("./icons/arrow-drop-down.svg");
   background-repeat: no-repeat;
   background-position: center;
