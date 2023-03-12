@@ -29,7 +29,7 @@ export default function Book({ book, updateBookShelf }) {
           </div>
         </div>
         <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.author}</div>
+        <div className="book-authors">{book.authors}</div>
       </div>
     </div>
   );
