@@ -7,10 +7,17 @@ import { Route, Routes } from "react-router-dom";
 
 function App() {
   const [books, setBooks] = useState([]);
+  const [mapOfIdToBooks, setMapOfIdToBooks] = useState(new Map());
+
+  const createMapOfBooks = (books) => {
+    const map = new Map();
+    books.map((book) => map.set(book.id, book));
+    return map;
+  };
   useEffect(() => {
     BooksAPI.getAll().then((res) => {
-      console.log(res);
       setBooks(res);
+      setMapOfIdToBooks(createMapOfBooks(res));
     });
   }, []);
 
@@ -24,7 +31,12 @@ function App() {
       }
       return book;
     });
+    if (!mapOfIdToBooks.has(book.id)) {
+      book.shelf = whereTo;
+      updatedBooks.push(book);
+    }
     setBooks(updatedBooks);
+
     BooksAPI.update(book, whereTo);
   };
   return (
@@ -32,7 +44,11 @@ function App() {
       <Routes>
         <Route
           element={
-            <Search books={books} onBookShelfChange={onBookShelfChange} />
+            <Search
+              books={books}
+              onBookShelfChange={onBookShelfChange}
+              createMapOfBooks={createMapOfBooks}
+            />
           }
           path="/search"
         />

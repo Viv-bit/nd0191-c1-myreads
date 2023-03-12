@@ -3,21 +3,15 @@ import * as BooksAPI from "../BooksAPI";
 import Book from "./Book";
 import { Link } from "react-router-dom";
 
-const Search = ({ onBookShelfChange, books }) => {
+const Search = ({ onBookShelfChange, books, createMapOfBooks }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [mergedBooks, setMergedBooks] = useState([]);
   const [mapOfIdToBooks, setMapOfIdToBooks] = useState(new Map());
 
-  const createMapOfBooks = (books) => {
-    const map = new Map();
-    books.map((book) => map.set(book.id, book));
-    return map;
-  };
-
   useEffect(() => {
     setMapOfIdToBooks(createMapOfBooks(books));
-  }, [books]);
+  }, [books, createMapOfBooks]);
 
   useEffect(() => {
     const combined = searchedBooks.map((book) => {
@@ -28,14 +22,13 @@ const Search = ({ onBookShelfChange, books }) => {
       }
     });
     setMergedBooks(combined);
-  }, [searchedBooks]);
+  }, [searchedBooks, mapOfIdToBooks]);
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
     if (e.target.value?.length > 0) {
       BooksAPI.search(e.target.value).then((res) => {
         if (res.error) {
-          console.log(res);
           setSearchedBooks([]);
         } else {
           setSearchedBooks(res);
